@@ -1,8 +1,10 @@
 # Python PyQt5 Digital Clock
 
 import sys
+import os
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout
 from PyQt5.QtCore import QTimer, QTime, Qt
+from PyQt5.QtGui import QFont, QFontDatabase
 
 
 class DigitalClock(
@@ -26,10 +28,26 @@ class DigitalClock(
         self.setLayout(vbox)
 
         self.time_label.setAlignment(Qt.AlignCenter)
-        self.time_label.setStyleSheet(
-            "font-size: 90px;" "font-family: Arial;" "color: hsl(111, 100%, 50%);"
-        )
+        self.time_label.setStyleSheet("font-size: 90px;" "color: hsl(111, 100%, 50%);")
         self.setStyleSheet("background-color:black;" "margin: 0px;" "padding: 0px")
+
+        font_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__), "..", "assets", "DigitalDystopia-mL5ma.ttf"
+            )
+        )
+        if not os.path.exists(font_path):
+            print(f"Error: Font file not found at {font_path}")
+            return
+
+        font_id = QFontDatabase.addApplicationFont(
+            font_path
+        )  # Class - querying fonts to the app
+        font_family = QFontDatabase.applicationFontFamilies(font_id)[
+            0
+        ]  # Add font_id to app font families
+        my_font = QFont(font_family, 150)
+        self.time_label.setFont(my_font)
 
         # Connect timer.timeout to update_time function
         self.timer.timeout.connect(self.update_time)

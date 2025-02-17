@@ -31,6 +31,10 @@ class DigitalClock(
         )
         self.setStyleSheet("background-color:black;" "margin: 0px;" "padding: 0px")
 
+        # Connect timer.timeout to update_time function
+        self.timer.timeout.connect(self.update_time)
+        self.timer.start(1000)  # Send timeout signal every 1000 ms
+
         self.update_time()
 
     def update_time(self):  # Update time

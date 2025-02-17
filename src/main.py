@@ -10,7 +10,7 @@ class DigitalClock(
 ):  # Widget inheritence from PyQt5, initialise components and elements
     def __init__(self):  # Custom constructor
         super().__init__()  # Inherit QWidget constructor
-        self.time_label = QLabel("12:00:00", self)
+        self.time_label = QLabel(self)
 
         self.timer = QTimer(self)
 
@@ -26,7 +26,16 @@ class DigitalClock(
         self.setLayout(vbox)
 
         self.time_label.setAlignment(Qt.AlignCenter)
-        self.time_label.setStyleSheet("font-size: 60px;")
+        self.time_label.setStyleSheet(
+            "font-size: 90px;" "font-family: Arial;" "color: hsl(111, 100%, 50%);"
+        )
+        self.setStyleSheet("background-color:black;" "margin: 0px;" "padding: 0px")
+
+        self.update_time()
+
+    def update_time(self):  # Update time
+        current_time = QTime.currentTime().toString("hh:mm:ss")
+        self.time_label.setText(current_time)
 
 
 if __name__ == "__main__":  # Initialize program if launched standalone
